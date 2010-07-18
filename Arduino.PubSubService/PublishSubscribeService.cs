@@ -21,6 +21,8 @@ namespace Arduino.PubSubService
 			Subscribers = new List<Subscription>();
 		}
 
+		public int Port { get; set; }
+
 		public List<Subscription> Subscribers { get; set; }
 
 		public void Publish(string message)
@@ -62,8 +64,7 @@ namespace Arduino.PubSubService
 
 		public void Connect()
 		{
-			// We simply listen on port 9999
-			_tcpListener = new TcpListener(IPAddress.Any, 9999);
+			_tcpListener = new TcpListener(IPAddress.Any, Port);
 			_listenThread = new Thread(new ThreadStart(ListenForClients));
 			_listenThread.Start();
 
@@ -164,7 +165,7 @@ namespace Arduino.PubSubService
 			{
 				TcpClient client = _tcpListener.AcceptTcpClient();
 
-				// create a thread to handle incomming messages
+				// create a thread to handle incoming messages
 				_clientThread = new Thread(new ParameterizedThreadStart(HandleClientComm));
 
 				_clientThread.Start(client);

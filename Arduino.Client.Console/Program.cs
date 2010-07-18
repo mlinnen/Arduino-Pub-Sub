@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using Arduino.PubSubService;
@@ -11,13 +12,14 @@ namespace Arduino.Client.Console
 		static void Main(string[] args)
 		{
 			PublishSubscribeClient client = new PublishSubscribeClient();
-			client.BrokerIp = "127.0.0.1";
-			client.BrokerPort = 9999;
-			client.MessagePort = 9998;
+			client.BrokerIp = ConfigurationManager.AppSettings["BrokerIp"];
+			client.BrokerPort = int.Parse(ConfigurationManager.AppSettings["BrokerPort"]);
+			client.MessagePort = int.Parse(ConfigurationManager.AppSettings["MessagePort"]);
+			string returnIp = ConfigurationManager.AppSettings["MessageIp"];
 			client.Connect();
 
-			// Subscribe to the say meessage
-			client.Publish("sub","say:127.0.0.1:" + client.MessagePort.ToString());
+			// Subscribe to the say message
+			client.Publish("sub","say:" + returnIp + ":" + client.MessagePort.ToString());
 
 			while(true)
 			{
@@ -30,7 +32,6 @@ namespace Arduino.Client.Console
 				client.Publish(messageType,messageBody);
 
 			}
-			//publish.Publish("Test", "1 2");
 		}
 	}
 }
