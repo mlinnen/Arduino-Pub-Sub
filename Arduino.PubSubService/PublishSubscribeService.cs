@@ -1,24 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace Arduino.PubSubService
 {
 	public class PublishSubscribeService
 	{
-		public List<Subscription> Subscribers { get; set; }
 
-		public void Subscribe(string message)
+		private TcpListener _tcpListener;
+		private Thread _listenThread;
+		private Thread _clientThread;
+
+		public PublishSubscribeService()
 		{
-			// TODO parse the message
-
-			// TODO check to be sure the message is valid
-
-			// TODO subscribe to the message
+			Subscribers = new List<Subscription>();
 		}
 
-		public void Subscribe(Subscription subscribe)
+		public List<Subscription> Subscribers { get; set; }
+
+		public void Publish(string message)
+		{
+			// TODO parse the message
+			string[] parts = message.Split(':');
+
+			// TODO check to be sure the message is valid
+			if (parts.Length < 2)
+				return;
+
+			string messageType = parts[0];
+
+			// Is this a subscription message type?
+			if (messageType.Equals("sub"))
+			{
+				Subscribe(message);
+			}
+			// Is this an unsubscribe message type?
+			else if (messageType.Equals("unsub"))
+			{
+				UnSubscribe(message);
+			}
+			// Must be just a plain old message so send it off to subscribers
+			else
+			{
+				foreach (Subscription subscriber in Subscribers)
+				{
+					if (subscriber.MessageType.Equals(messageType))
+					{
+						SendMessage(subscriber, message);
+					}
+				}
+
+			}
+
+
+		}
+
+		public void Connect()
+		{
+			// We simply listen on port 9999
+			_tcpListener = new TcpListener(IPAddress.Any, 9999);
+			_listenThread = new Thread(new ThreadStart(ListenForClients));
+			_listenThread.Start();
+
+		}
+
+		private void Subscribe(string message)
+		{
+			string[] parts = message.Split(':');
+
+			// Validate the subscription message
+			if (parts.Length == 3)
+			{
+				// Validate the IP address
+				string[] ipParts = parts[2].Split('.');
+				if (ipParts.Length != 4)
+				{
+					return;
+				}
+
+				// Validate the message that we are subscribing to
+
+				Subscription subscription = new Subscription(parts[1], parts[2]);
+				Subscribe(subscription);
+			}
+		}
+
+		private void Subscribe(Subscription subscribe)
 		{
 			// TODO Do some locking
 			bool found = false;
@@ -34,16 +106,28 @@ namespace Arduino.PubSubService
 				Subscribers.Add(subscribe);
 		}
 
-		public void UnSubscribe(string message)
+		private void UnSubscribe(string message)
 		{
-			// TODO parse the message
+			string[] parts = message.Split(':');
 
-			// TODO check to be sure the message is valid
+			// Validate the subscription message
+			if (parts.Length == 2)
+			{
+				// Validate the IP address
+				string[] ipParts = parts[2].Split('.');
+				if (ipParts.Length != 4)
+				{
+					return;
+				}
 
-			// TODO UnSubscribe from the message
+				// Validate the message that we are unsubscribing from
+
+				Subscription subscription = new Subscription(parts[1], parts[2]);
+				UnSubscribe(subscription);
+			}
 		}
 
-		public void UnSubscribe(Subscription subscribe)
+		private void UnSubscribe(Subscription subscribe)
 		{
 			// TODO Do some locking
 			foreach (Subscription subscriber in Subscribers)
@@ -56,25 +140,65 @@ namespace Arduino.PubSubService
 			}
 		}
 
-		public void Publish(string message)
+		private void SendMessage(Subscription subscription, string message)
 		{
-			// TODO parse the message
-			string[] parts = message.Split(':');
+			Int32 port = 9999;
+			TcpClient client = new TcpClient(subscription.Ip, port);
 
-			// TODO check to be sure the message is valid
-			if (parts.Length != 2)
-				return;
+			// Translate the passed message into ASCII and store it as a Byte array.
+			Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
 
-			string messageType = parts[0];
-			if (messageType.Equals("sub"))
-			{
-				
-			}
+			// Get a client stream for reading and writing.
+			//  Stream stream = client.GetStream();
 
+			NetworkStream stream = client.GetStream();
 
-			// TODO check to see if this is a subscription message
+			// Send the message to the connected TcpServer. 
+			stream.Write(data, 0, data.Length);
 
-			// If it is a subscription message then subscribe to it otherwise forward the message to all subscribers
 		}
+
+		private void ListenForClients()
+		{
+			_tcpListener.Start();
+			while (true)
+			{
+				TcpClient client = _tcpListener.AcceptTcpClient();
+
+				// create a thread to handle incomming messages
+				_clientThread = new Thread(new ParameterizedThreadStart(HandleClientComm));
+
+				_clientThread.Start(client);
+			}
+		}
+
+		private void HandleClientComm(object client)
+		{
+			TcpClient tcpClient = (TcpClient)client;
+			NetworkStream clientStream = tcpClient.GetStream();
+			StreamReader reader = new StreamReader(clientStream);
+
+			// TODO convert this to be more efficient so that it isn't consuming cpu time 
+			while (true)
+			{
+				string data = "";
+				try
+				{
+					// Wait for an entire line to be read
+					data = reader.ReadLine();
+				}
+				catch (Exception ex)
+				{
+					break;
+				}
+				if (data == null)
+					continue;
+
+				Publish(data);
+				Thread.Sleep(1000);
+			}
+			tcpClient.Close();
+		}
+
 	}
 }

@@ -12,11 +12,11 @@ namespace Arduino.PubSubConsole
     static void Main(string[] args)
     {
 
-      SubscriptionService subscriptionService = new SubscriptionService();
-      subscriptionService.Connect();
+      //SubscriptionService subscriptionService = new SubscriptionService();
+      //subscriptionService.Connect();
 
-      PublishService publishService = new PublishService();
-      publishService.Connect();
+		PublishSubscribeService service = new PublishSubscribeService();
+		service.Connect();
 
       Console.WriteLine("Press enter to close program");
       Console.ReadLine();
