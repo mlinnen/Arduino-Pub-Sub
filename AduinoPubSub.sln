@@ -1,11 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.PubSubService", "Arduino.PubSubService\Arduino.PubSubService.csproj", "{ED2573AF-F8CA-448C-B0AF-6A6C1D6F6184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.ClientConsole", "Arduino.ClientConsole\Arduino.ClientConsole.csproj", "{35AF7C34-D923-4D90-B1C6-5465194C9DD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.Client.Console", "Arduino.Client.Console\Arduino.Client.Console.csproj", "{35AF7C34-D923-4D90-B1C6-5465194C9DD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.PubSubConsole", "Arduino.PubSubConsole\Arduino.PubSubConsole.csproj", "{76464AC0-7162-4E94-A194-D3688AC3CDFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.PubSubBroker.Console", "Arduino.PubSubBroker.Console\Arduino.PubSubBroker.Console.csproj", "{76464AC0-7162-4E94-A194-D3688AC3CDFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.PubSubService.UnitTests", "Arduino.PubSubService.UnitTests\Arduino.PubSubService.UnitTests.csproj", "{F1743843-48D7-48A3-8E53-ECB2E901160F}"
 EndProject

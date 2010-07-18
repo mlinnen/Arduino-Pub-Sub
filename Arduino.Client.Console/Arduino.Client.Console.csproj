@@ -8,8 +8,8 @@
     <ProjectGuid>{35AF7C34-D923-4D90-B1C6-5465194C9DD8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Arduino.ClientConsole</RootNamespace>
-    <AssemblyName>Arduino.ClientConsole</AssemblyName>
+    <RootNamespace>Arduino.Client.Console</RootNamespace>
+    <AssemblyName>Arduino.Client.Console</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -51,6 +51,9 @@
       <Project>{ED2573AF-F8CA-448C-B0AF-6A6C1D6F6184}</Project>
       <Name>Arduino.PubSubService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

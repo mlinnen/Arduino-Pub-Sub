@@ -5,7 +5,7 @@ using System.Text;
 using Arduino.PubSubService;
 using System.ComponentModel.Composition.Hosting;
 
-namespace Arduino.PubSubConsole
+namespace Arduino.PubSubBroker.Console
 {
   class Program
   {
@@ -18,8 +18,8 @@ namespace Arduino.PubSubConsole
 		PublishSubscribeService service = new PublishSubscribeService();
 		service.Connect();
 
-      Console.WriteLine("Press enter to close program");
-      Console.ReadLine();
+      System.Console.WriteLine("Press enter to close program");
+      System.Console.ReadLine();
     }
   }
 }

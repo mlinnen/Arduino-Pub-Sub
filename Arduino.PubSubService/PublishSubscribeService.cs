@@ -74,7 +74,7 @@ namespace Arduino.PubSubService
 			string[] parts = message.Split(':');
 
 			// Validate the subscription message
-			if (parts.Length == 3)
+			if (parts.Length == 4)
 			{
 				// Validate the IP address
 				string[] ipParts = parts[2].Split('.');
@@ -85,7 +85,7 @@ namespace Arduino.PubSubService
 
 				// Validate the message that we are subscribing to
 
-				Subscription subscription = new Subscription(parts[1], parts[2]);
+				Subscription subscription = new Subscription(parts[1], parts[2],parts[3]);
 				Subscribe(subscription);
 			}
 		}
@@ -122,7 +122,7 @@ namespace Arduino.PubSubService
 
 				// Validate the message that we are unsubscribing from
 
-				Subscription subscription = new Subscription(parts[1], parts[2]);
+				Subscription subscription = new Subscription(parts[1], parts[2],parts[3]);
 				UnSubscribe(subscription);
 			}
 		}
@@ -142,8 +142,7 @@ namespace Arduino.PubSubService
 
 		private void SendMessage(Subscription subscription, string message)
 		{
-			Int32 port = 9999;
-			TcpClient client = new TcpClient(subscription.Ip, port);
+			TcpClient client = new TcpClient(subscription.Ip, subscription.Port);
 
 			// Translate the passed message into ASCII and store it as a Byte array.
 			Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
