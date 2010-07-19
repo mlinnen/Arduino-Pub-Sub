@@ -70,6 +70,13 @@ namespace Arduino.PubSubService
 
 		}
 
+		public void Disconnect()
+		{
+			_tcpListener.Stop();
+			_tcpListener = null;
+
+		}
+
 		private void Subscribe(string message)
 		{
 			string[] parts = message.Split(':');
@@ -143,23 +150,27 @@ namespace Arduino.PubSubService
 
 		private void SendMessage(Subscription subscription, string message)
 		{
-			TcpClient client = new TcpClient(subscription.Ip, subscription.Port);
+			try
+			{
+				TcpClient client = new TcpClient(subscription.Ip, subscription.Port);
 
-			// Translate the passed message into ASCII and store it as a Byte array.
-			Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
+				// Translate the passed message into ASCII and store it as a Byte array.
+				Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
 
-			// Get a client stream for reading and writing.
-			//  Stream stream = client.GetStream();
+				NetworkStream stream = client.GetStream();
 
-			NetworkStream stream = client.GetStream();
+				// Send the message to the connected TcpServer. 
+				stream.Write(data, 0, data.Length);
 
-			// Send the message to the connected TcpServer. 
-			stream.Write(data, 0, data.Length);
+				stream.Flush();
 
-			stream.Flush();
+				stream.Close();
 
-			stream.Close();
-
+			}
+			catch (Exception)
+			{
+				Console.WriteLine("Exception while trying to send message {3} to {0} on port {1}",subscription.Ip,subscription.Port,message);
+			}
 		}
 
 		private void ListenForClients()
