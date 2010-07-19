@@ -1,0 +1,8 @@
+Arduino Pub-Sub Project
+======================================
+This project was created as a messaging system targeting Home Auotomation.  The messages are light weight over TCP using a centralized message broker that handles
+publishing messages to subscribers.  This project was written using C# for event broker and PC Clients and Arduino for hardware device clients.  
+
+Release
+======================================
+Pre Alpha - which means non functional at the moment
