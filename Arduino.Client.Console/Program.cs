@@ -19,7 +19,7 @@ namespace Arduino.Client.Console
 			client.Connect();
 
 			// Subscribe to the say message
-			client.Publish("sub","say:" + returnIp + ":" + client.MessagePort.ToString());
+			//client.Publish("sub","say:" + returnIp + ":" + client.MessagePort.ToString());
 
 			while(true)
 			{

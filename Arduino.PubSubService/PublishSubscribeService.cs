@@ -27,10 +27,10 @@ namespace Arduino.PubSubService
 
 		public void Publish(string message)
 		{
-			// TODO parse the message
+			// parse the message
 			string[] parts = message.Split(':');
 
-			// TODO check to be sure the message is valid
+			// check to be sure the message is valid
 			if (parts.Length < 2)
 				return;
 
@@ -155,6 +155,10 @@ namespace Arduino.PubSubService
 
 			// Send the message to the connected TcpServer. 
 			stream.Write(data, 0, data.Length);
+
+			stream.Flush();
+
+			stream.Close();
 
 		}
 

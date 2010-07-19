@@ -44,6 +44,8 @@ namespace Arduino.PubSubService
 			// Send the message to the connected TcpServer. 
 			stream.Write(data, 0, data.Length);
 
+			stream.Flush();
+
 			client.Close();
 
 		}
