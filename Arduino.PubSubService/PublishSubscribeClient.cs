@@ -75,21 +75,24 @@ namespace Arduino.PubSubService
 		{
 			TcpClient tcpClient = (TcpClient)client;
 			NetworkStream clientStream = tcpClient.GetStream();
-			StreamReader reader = new StreamReader(clientStream);
+			byte[] message = new byte[4096];
+			int bytesRead;
 			while (true)
 			{
 				string data = "";
 				try
 				{
 					// Wait for an entire line to be read
-					data = reader.ReadLine();
+					bytesRead = clientStream.Read(message, 0, 4096);
 				}
 				catch (Exception ex)
 				{
 					break;
 				}
-				Console.WriteLine("Received: " + data);
-				Thread.Sleep(1000);
+				if (bytesRead == 0)
+					break;
+				ASCIIEncoding encoder = new ASCIIEncoding();
+				System.Console.WriteLine(encoder.GetString(message, 0, bytesRead));
 			}
 			tcpClient.Close();
 		}
