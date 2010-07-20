@@ -43,20 +43,24 @@ namespace Arduino.PubSubService
 				// Is this a subscription message type?
 				if (messageType.Equals("sub"))
 				{
+					Console.WriteLine("A subscription message was received: {0}",message);
 					Subscribe(message);
 				}
 					// Is this an unsubscribe message type?
 				else if (messageType.Equals("unsub"))
 				{
+					Console.WriteLine("An unsubscribe message was received: {0}", message);
 					UnSubscribe(message);
 				}
 					// Must be just a plain old message so send it off to subscribers
 				else
 				{
+					Console.WriteLine("A publish message was received: {0}", message);
 					foreach (Subscription subscriber in Subscribers)
 					{
 						if (subscriber.MessageType.Equals(messageType))
 						{
+							Console.WriteLine("Sending message {3} to {0} on port {1}",subscriber.Ip,subscriber.Port, message);
 							SendMessage(subscriber, message);
 						}
 					}
@@ -173,6 +177,7 @@ namespace Arduino.PubSubService
 			catch (Exception)
 			{
 				Console.WriteLine("Exception while trying to send message {3} to {0} on port {1}",subscription.Ip,subscription.Port,message);
+				Subscribers.Remove(subscription);
 			}
 		}
 
