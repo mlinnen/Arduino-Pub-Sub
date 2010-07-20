@@ -79,7 +79,6 @@ namespace Arduino.PubSubService
 			int bytesRead;
 			while (true)
 			{
-				string data = "";
 				try
 				{
 					// Wait for an entire line to be read

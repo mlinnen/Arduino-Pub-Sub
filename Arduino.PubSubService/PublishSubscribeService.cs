@@ -15,6 +15,7 @@ namespace Arduino.PubSubService
 		private TcpListener _tcpListener;
 		private Thread _listenThread;
 		private Thread _clientThread;
+		private Object _lock = new Object();
 
 		public PublishSubscribeService()
 		{
@@ -23,7 +24,7 @@ namespace Arduino.PubSubService
 
 		public int Port { get; set; }
 
-		public List<Subscription> Subscribers { get; set; }
+		private List<Subscription> Subscribers { get; set; }
 
 		public void Publish(string message)
 		{
@@ -36,30 +37,31 @@ namespace Arduino.PubSubService
 
 			string messageType = parts[0];
 
-			// Is this a subscription message type?
-			if (messageType.Equals("sub"))
+			lock (_lock)
 			{
-				Subscribe(message);
-			}
-			// Is this an unsubscribe message type?
-			else if (messageType.Equals("unsub"))
-			{
-				UnSubscribe(message);
-			}
-			// Must be just a plain old message so send it off to subscribers
-			else
-			{
-				foreach (Subscription subscriber in Subscribers)
+				// Is this a subscription message type?
+				if (messageType.Equals("sub"))
 				{
-					if (subscriber.MessageType.Equals(messageType))
-					{
-						SendMessage(subscriber, message);
-					}
+					Subscribe(message);
 				}
+					// Is this an unsubscribe message type?
+				else if (messageType.Equals("unsub"))
+				{
+					UnSubscribe(message);
+				}
+					// Must be just a plain old message so send it off to subscribers
+				else
+				{
+					foreach (Subscription subscriber in Subscribers)
+					{
+						if (subscriber.MessageType.Equals(messageType))
+						{
+							SendMessage(subscriber, message);
+						}
+					}
 
+				}
 			}
-
-
 		}
 
 		public void Connect()
@@ -191,26 +193,24 @@ namespace Arduino.PubSubService
 		{
 			TcpClient tcpClient = (TcpClient)client;
 			NetworkStream clientStream = tcpClient.GetStream();
-			StreamReader reader = new StreamReader(clientStream);
+			byte[] message = new byte[4096];
+			int bytesRead;
 
-			// TODO convert this to be more efficient so that it isn't consuming cpu time 
 			while (true)
 			{
-				string data = "";
 				try
 				{
 					// Wait for an entire line to be read
-					data = reader.ReadLine();
+					bytesRead = clientStream.Read(message, 0, 4096);
 				}
 				catch (Exception ex)
 				{
 					break;
 				}
-				if (data == null)
-					continue;
-
-				Publish(data);
-				Thread.Sleep(1000);
+				if (bytesRead == 0)
+					break;
+				ASCIIEncoding encoder = new ASCIIEncoding();
+				Publish(encoder.GetString(message, 0, bytesRead));
 			}
 			tcpClient.Close();
 		}
