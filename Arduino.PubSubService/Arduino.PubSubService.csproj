@@ -42,9 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublishSubscribeClient.cs" />
     <Compile Include="PublishSubscribeService.cs" />
     <Compile Include="Subscription.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Arduino.Contract\Arduino.Contract.csproj">
+      <Project>{33A1EBB2-23FC-4B61-8095-F94357B25C1B}</Project>
+      <Name>Arduino.Contract</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,23 +8,24 @@ using System.Configuration;
 
 namespace Arduino.PubSubBroker.Console
 {
-  class Program
-  {
-    static void Main(string[] args)
-    {
+	class Program
+	{
+		static void Main(string[] args)
+		{
 
-      //SubscriptionService subscriptionService = new SubscriptionService();
-      //subscriptionService.Connect();
+			//SubscriptionService subscriptionService = new SubscriptionService();
+			//subscriptionService.Connect();
 
-		PublishSubscribeService service = new PublishSubscribeService();
-    	int port = 9999;
-		int.TryParse(ConfigurationManager.AppSettings["BrokerPort"], out port);
+			PublishSubscribeService service = new PublishSubscribeService();
+			int port = 9999;
+			int.TryParse(ConfigurationManager.AppSettings["BrokerPort"], out port);
 
-    	service.Port = port;
-		service.Connect();
+			service.Port = port;
+			service.Connect();
 
-      System.Console.WriteLine("Press enter to close program");
-      System.Console.ReadLine();
-    }
-  }
+			System.Console.WriteLine("Message Broker Program");
+			System.Console.WriteLine("Press enter to close");
+			System.Console.ReadLine();
+		}
+	}
 }

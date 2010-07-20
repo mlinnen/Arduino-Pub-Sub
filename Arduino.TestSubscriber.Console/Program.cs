@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using Arduino.PubSubConnector;
 
-namespace Arduino.Client.Console
+namespace Arduino.TestSubscriber.Console
 {
 	class Program
 	{
@@ -20,7 +20,7 @@ namespace Arduino.Client.Console
 			p.Compose();
 
 			p.Run();
-			
+
 		}
 		private bool Compose()
 		{
@@ -41,23 +41,13 @@ namespace Arduino.Client.Console
 			string returnIp = ConfigurationManager.AppSettings["MessageIp"];
 			client.Connect();
 
+			// TODO use MEF to determine all the processors to subscribe for 
 			// Subscribe to the hb message
-			client.Publish("sub","hb:" + returnIp + ":" + client.MessagePort.ToString());
+			client.Publish("sub", "hb:" + returnIp + ":" + client.MessagePort.ToString());
 
-			while (true)
-			{
-				System.Console.WriteLine("Enter in a message type to publish (example say):");
-				string messageType = System.Console.ReadLine();
-				if (string.IsNullOrEmpty(messageType))
-					break;
-				System.Console.WriteLine("Enter in the message body:");
-				string messageBody = System.Console.ReadLine();
+			System.Console.WriteLine("Press Enter to end program");
+			System.Console.ReadLine();
 
-				System.Console.WriteLine(string.Format("Publishing the following: {0}:{1}", messageType, messageBody));
-				client.Publish(messageType, messageBody);
-
-			}
-	
 		}
 
 		/// <summary>

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{35AF7C34-D923-4D90-B1C6-5465194C9DD8}</ProjectGuid>
+    <ProjectGuid>{418D9E61-CEDA-4E73-9602-D363504EEDB1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Arduino.Client.Console</RootNamespace>
-    <AssemblyName>Arduino.Client.Console</AssemblyName>
+    <RootNamespace>Arduino.TestSubscriber.Console</RootNamespace>
+    <AssemblyName>Arduino.TestSubscriber.Console</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

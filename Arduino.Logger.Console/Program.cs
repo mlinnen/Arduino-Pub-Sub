@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
-using Arduino.PubSubService;
+using Arduino.PubSubConnector;
 
-namespace Arduino.Logger.Client
+namespace Arduino.Logger.Console
 {
 	class Program
 	{
@@ -19,10 +19,12 @@ namespace Arduino.Logger.Client
 			client.Connect();
 
 			// Subscribe to the say message
-			client.Publish("sub","say:" + returnIp + ":" + client.MessagePort.ToString());
+			// TODO add in some way to load subscriptions from a file instead of changing the code or subscribing to all messages
+			client.Publish("sub", "say:" + returnIp + ":" + client.MessagePort.ToString());
 
 			System.Console.WriteLine("This is a simple data logger that logs messages that it is subscribed to");
 			System.Console.ReadLine();
+
 		}
 	}
 }

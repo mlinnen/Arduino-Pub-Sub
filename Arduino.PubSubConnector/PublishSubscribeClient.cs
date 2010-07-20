@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Net.Sockets;
 using System.Threading;
+using Arduino.Contract;
 
-namespace Arduino.PubSubService
+namespace Arduino.PubSubConnector
 {
 	public class PublishSubscribeClient
 	{
@@ -18,6 +20,12 @@ namespace Arduino.PubSubService
 		public string BrokerIp { get; set; }
 		public int BrokerPort { get; set; }
 		public int MessagePort { get; set; }
+
+		/// <summary>
+		/// A collection of message processors
+		/// </summary>
+		[ImportMany]
+		public List<IMessageProcessor> MessageProcessors { get; set; }
 
 		public PublishSubscribeClient()
 		{
@@ -71,6 +79,7 @@ namespace Arduino.PubSubService
 				_clientThread.Start(client);
 			}
 		}
+
 		private void HandleClientComm(object client)
 		{
 			TcpClient tcpClient = (TcpClient)client;
@@ -91,7 +100,24 @@ namespace Arduino.PubSubService
 				if (bytesRead == 0)
 					break;
 				ASCIIEncoding encoder = new ASCIIEncoding();
-				System.Console.WriteLine(encoder.GetString(message, 0, bytesRead));
+				string data = encoder.GetString(message, 0, bytesRead);
+
+				// TODO Add an export that sends the raw data instead of dumping to the console
+				System.Console.WriteLine(data);
+
+				// Process the data that came from the Arduino
+				if (MessageProcessors != null)
+				{
+					foreach (IMessageProcessor processor in MessageProcessors)
+					{
+						if (processor.ShouldProcess(data))
+						{
+							processor.Execute(data);
+							break;
+						}
+					}
+				}
+
 			}
 			tcpClient.Close();
 		}

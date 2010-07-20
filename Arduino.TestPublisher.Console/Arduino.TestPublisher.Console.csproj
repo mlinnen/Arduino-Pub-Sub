@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5562AB2D-14B2-4134-A338-A1BA2E35CEB7}</ProjectGuid>
+    <ProjectGuid>{60DC9F9D-5CCC-4D94-B7CE-07874E179910}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Arduino.Logger.Client</RootNamespace>
-    <AssemblyName>Arduino.Logger.Client</AssemblyName>
+    <RootNamespace>Arduino.TestPublisher.Console</RootNamespace>
+    <AssemblyName>Arduino.TestPublisher.Console</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -48,9 +48,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Arduino.PubSubService\Arduino.PubSubService.csproj">
-      <Project>{ED2573AF-F8CA-448C-B0AF-6A6C1D6F6184}</Project>
-      <Name>Arduino.PubSubService</Name>
+    <ProjectReference Include="..\Arduino.PubSubConnector\Arduino.PubSubConnector.csproj">
+      <Project>{A27A658A-8CCC-4E55-919E-69B8EE25823E}</Project>
+      <Name>Arduino.PubSubConnector</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
