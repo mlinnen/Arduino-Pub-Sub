@@ -16,7 +16,7 @@ namespace Arduino.PubSubBroker.WinService
 		private ServiceInstaller serviceInstaller;
 		public PublishSubscribeBrokerInstaller()
 		{
-			InitializeComponent();
+			//InitializeComponent();
 
 			processInstaller = new ServiceProcessInstaller();
 			serviceInstaller = new ServiceInstaller();
@@ -24,6 +24,8 @@ namespace Arduino.PubSubBroker.WinService
 			serviceInstaller.StartType = ServiceStartMode.Automatic;
 			serviceInstaller.ServiceName = "Arduino.PubSubBroker.WinService";
 			serviceInstaller.DisplayName = "Message Broker";
+			Installers.Add(serviceInstaller);
+			Installers.Add(processInstaller);
 
 		}
 	}
