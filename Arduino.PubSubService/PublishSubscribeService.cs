@@ -60,7 +60,7 @@ namespace Arduino.PubSubService
 					{
 						if (subscriber.MessageType.Equals(messageType))
 						{
-							Console.WriteLine("Sending message {3} to {0} on port {1}",subscriber.Ip,subscriber.Port, message);
+							Console.WriteLine("Sending message {2} to {0} on port {1}",subscriber.Ip,subscriber.Port, message);
 							SendMessage(subscriber, message);
 						}
 					}
@@ -174,10 +174,11 @@ namespace Arduino.PubSubService
 				stream.Close();
 
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				Console.WriteLine("Exception while trying to send message {3} to {0} on port {1}",subscription.Ip,subscription.Port,message);
-				Subscribers.Remove(subscription);
+				Console.WriteLine("Exception while trying to send message {2} to {0} on port {1} Error: {3}",subscription.Ip,subscription.Port,message,ex.Message);
+				// TODO remove subscribers that are not responding
+				//Subscribers.Remove(subscription);
 			}
 		}
 

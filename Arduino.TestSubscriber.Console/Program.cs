@@ -43,7 +43,7 @@ namespace Arduino.TestSubscriber.Console
 
 			// TODO use MEF to determine all the processors to subscribe for 
 			// Subscribe to the hb message
-			client.Publish("sub", "hb:" + returnIp + ":" + client.MessagePort.ToString());
+			client.Publish("sub", "HB:" + returnIp + ":" + client.MessagePort.ToString());
 
 			System.Console.WriteLine("Press Enter to end program");
 			System.Console.ReadLine();

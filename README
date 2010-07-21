@@ -1,8 +1,33 @@
 Arduino Pub-Sub Project
 ======================================
-This project was created as a messaging system targeting Home Auotomation.  The messages are light weight over TCP using a centralized message broker that handles
-publishing messages to subscribers.  This project was written using C# for event broker and PC Clients and Arduino for hardware device clients.  
+This project was created as a messaging system targeting Home Automation.  The messages are light weight over TCP using a centralized message broker that handles routing messages to subscribers.  This project was written using C# for the event broker and PC Clients and Arduinos with Ethernet shields are used as hardware device clients.  
 
 Release
 ======================================
-Pre Alpha - which means non functional at the moment
+Alpha 0.1 - which means some things work but I have a lot to build out
+
+Getting Started
+======================================
+Open the ArduinoPubSub.sln solution and compile it.  Everything you need is compiled to the Deploy directory.  
+
+Message Broker:
+You can run the Arduino.PubSubBroker.Console.exe console application as the message broker or install the Arduino.PubSubBroker.WinService.exe as a windows service.  I like to use the console application while I am working out the code for the publisher and subscriber. Before you start either of these applications make sure you edit the .config file for the port you want the broker to listen for messages on.  The message broker must be started before any of the subscribers or publishers.  Also the broker has to be on a fixed IP.
+
+Arduino Publisher:
+I have one sketch currently that just sends a heartbeat message every 5 seconds.  Look in the Arduino.Sketches\MessagePublisher folder for sketches that work on the message bus.  Keep in mind you need the Ethernet shield to send and receive messages with the Arduino.  At this point in time I only have the Arduino publishing messages.
+
+.Net Test Subscriber:
+The Client\TestSubscriberConsole.exe console application will subscribe to the heartbeat message that is being sent by the arduino sketch.  Make sure you change the .config file to have the broker ip and port as well as the ip and port that you want the broker to send the message too.
+
+.Net Test Publisher:
+The Client\TestPublisherConsole.exe console application can be used to build up test message to publish.
+
+Message Format
+======================================
+TODO
+
+Bugs
+======================================
+- Subscribers that can not be reached should be removed from the subscription list
+- Exceptions in the Broker can bring down the broker
+- Subscriptions should not be case sensitive as far as the MessageType goes

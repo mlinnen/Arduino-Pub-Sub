@@ -20,6 +20,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.TestSubscriber.Cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.Logger.Console", "Arduino.Logger.Console\Arduino.Logger.Console.csproj", "{7EC4AFCA-4474-4D66-8814-21B9AB5F24E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.AnalogThreshold.MessageProcessor", "Arduino.AnalogThreshold.MessageProcessor\Arduino.AnalogThreshold.MessageProcessor.csproj", "{63238438-A628-49F4-8B41-569917303472}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93FDB25E-097B-4E55-B69C-A97AE4F933F8}"
+	ProjectSection(SolutionItems) = preProject
+		README = README
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +137,16 @@ Global
 		{7EC4AFCA-4474-4D66-8814-21B9AB5F24E0}.Release|Mixed Platforms.Build.0 = Release|x86
 		{7EC4AFCA-4474-4D66-8814-21B9AB5F24E0}.Release|x86.ActiveCfg = Release|x86
 		{7EC4AFCA-4474-4D66-8814-21B9AB5F24E0}.Release|x86.Build.0 = Release|x86
+		{63238438-A628-49F4-8B41-569917303472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63238438-A628-49F4-8B41-569917303472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63238438-A628-49F4-8B41-569917303472}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{63238438-A628-49F4-8B41-569917303472}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{63238438-A628-49F4-8B41-569917303472}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{63238438-A628-49F4-8B41-569917303472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63238438-A628-49F4-8B41-569917303472}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63238438-A628-49F4-8B41-569917303472}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{63238438-A628-49F4-8B41-569917303472}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{63238438-A628-49F4-8B41-569917303472}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
