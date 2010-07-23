@@ -31,7 +31,9 @@ namespace Arduino.TestPublisher.Console
 				client.Publish(messageType, messageBody);
 
 			}
-	
+
+			Environment.Exit(0);
+
 
 		}
 	}

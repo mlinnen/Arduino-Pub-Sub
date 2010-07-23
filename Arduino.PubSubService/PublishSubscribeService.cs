@@ -126,7 +126,7 @@ namespace Arduino.PubSubService
 			string[] parts = message.Split(':');
 
 			// Validate the subscription message
-			if (parts.Length == 2)
+			if (parts.Length == 3)
 			{
 				// Validate the IP address
 				string[] ipParts = parts[2].Split('.');

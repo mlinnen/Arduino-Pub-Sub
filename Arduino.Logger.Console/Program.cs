@@ -25,6 +25,10 @@ namespace Arduino.Logger.Console
 			System.Console.WriteLine("This is a simple data logger that logs messages that it is subscribed to");
 			System.Console.ReadLine();
 
+			client.Publish("unsub", "say:" + returnIp.ToString() + ":" + client.MessagePort.ToString());
+
+			Environment.Exit(0);
+
 		}
 	}
 }

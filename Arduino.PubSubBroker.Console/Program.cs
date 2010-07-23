@@ -13,9 +13,6 @@ namespace Arduino.PubSubBroker.Console
 		static void Main(string[] args)
 		{
 
-			//SubscriptionService subscriptionService = new SubscriptionService();
-			//subscriptionService.Connect();
-
 			PublishSubscribeService service = new PublishSubscribeService();
 			int port = 9999;
 			int.TryParse(ConfigurationManager.AppSettings["BrokerPort"], out port);
@@ -26,6 +23,8 @@ namespace Arduino.PubSubBroker.Console
 			System.Console.WriteLine("Message Broker Program");
 			System.Console.WriteLine("Press enter to close");
 			System.Console.ReadLine();
+
+			Environment.Exit(0);
 		}
 	}
 }

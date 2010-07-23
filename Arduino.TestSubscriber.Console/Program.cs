@@ -21,6 +21,10 @@ namespace Arduino.TestSubscriber.Console
 
 			p.Run();
 
+			p = null;
+			
+			Environment.Exit(0);
+
 		}
 		private bool Compose()
 		{
@@ -41,19 +45,25 @@ namespace Arduino.TestSubscriber.Console
 			string returnIp = ConfigurationManager.AppSettings["MessageIp"];
 			client.Connect();
 
-			// TODO use MEF to determine all the processors to subscribe for 
-			// Subscribe to the hb message
+			// Subscribe to the HB message
 			client.Publish("sub", "HB:" + returnIp + ":" + client.MessagePort.ToString());
+
+			// Subscribe to the AT message
+			client.Publish("sub", "AT:" + returnIp + ":" + client.MessagePort.ToString());
 
 			System.Console.WriteLine("Press Enter to end program");
 			System.Console.ReadLine();
+
+			client.Publish("unsub","HB:" + returnIp.ToString() + ":" + client.MessagePort.ToString());
+
+			client.Publish("unsub", "AT:" + returnIp.ToString() + ":" + client.MessagePort.ToString());
 
 		}
 
 		/// <summary>
 		/// The call back method for when the Arduino sends the heart beat message
 		/// </summary>
-		/// <param name="count">The current count from the arduino</param>
+		/// <param name="count">The current count from the Arduino</param>
 		[Export("HeartBeatProcessor")]
 		public void HeartBeatMessageReceived(int count)
 		{
