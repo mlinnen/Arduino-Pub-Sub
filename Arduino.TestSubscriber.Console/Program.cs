@@ -5,7 +5,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
 using System.Linq;
 using System.Text;
-using Arduino.PubSubConnector;
+using Arduino.Contract;
 
 namespace Arduino.TestSubscriber.Console
 {
@@ -46,17 +46,19 @@ namespace Arduino.TestSubscriber.Console
 			client.Connect();
 
 			// Subscribe to the HB message
-			client.Publish("sub", "HB:" + returnIp + ":" + client.MessagePort.ToString());
+			Subscription hbMessage = new Subscription("HB", returnIp, client.MessagePort);
+			client.Subscribe(hbMessage);
 
 			// Subscribe to the AT message
-			client.Publish("sub", "AT:" + returnIp + ":" + client.MessagePort.ToString());
+			Subscription atMessage = new Subscription("AT", returnIp, client.MessagePort);
+			client.Subscribe(atMessage);
 
 			System.Console.WriteLine("Press Enter to end program");
 			System.Console.ReadLine();
 
-			client.Publish("unsub","HB:" + returnIp.ToString() + ":" + client.MessagePort.ToString());
+			client.UnSubscribe(hbMessage);
 
-			client.Publish("unsub", "AT:" + returnIp.ToString() + ":" + client.MessagePort.ToString());
+			client.UnSubscribe(atMessage);
 
 		}
 

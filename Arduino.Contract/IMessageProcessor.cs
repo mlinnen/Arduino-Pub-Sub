@@ -6,13 +6,12 @@ using System.Text;
 namespace Arduino.Contract
 {
 	/// <summary>
-	/// The inteface all message processors have to impliment
+	/// The interface all message processors have to implement
 	/// </summary>
 	public interface IMessageProcessor
 	{
 		/// <summary>
-		/// A unique string that distinguishes the message processor from all other message processors.
-		/// This should match what is comming from the device
+		/// The type of message this processor is for
 		/// </summary>
 		string MessageType { get; }
 
@@ -21,13 +20,13 @@ namespace Arduino.Contract
 		/// came from the device
 		/// </summary>
 		/// <param name="msg"></param>
-		void Execute(string msg);
+		void Execute(IMessage msg);
 
 		/// <summary>
 		/// A simple test to see if the msg is for this message processor
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <returns>true if this data should be processed by this message processor</returns>
-		bool ShouldProcess(string msg);
+		bool ShouldProcess(IMessage msg);
 	}
 }

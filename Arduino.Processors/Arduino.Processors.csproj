@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F1743843-48D7-48A3-8E53-ECB2E901160F}</ProjectGuid>
+    <ProjectGuid>{4C3F907B-624D-4EFF-9050-172C66967645}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Arduino.PubSubService.UnitTests</RootNamespace>
-    <AssemblyName>Arduino.PubSubService.UnitTests</AssemblyName>
+    <RootNamespace>Arduino.Processors</RootNamespace>
+    <AssemblyName>Arduino.Processors</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Deploy\Tests\UnitTests\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,13 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalogThreshholdProcessor.cs" />
+    <Compile Include="HeartbeatProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublishSubscribeServiceFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Arduino.PubSubService\Arduino.PubSubService.csproj">
-      <Project>{ED2573AF-F8CA-448C-B0AF-6A6C1D6F6184}</Project>
-      <Name>Arduino.PubSubService</Name>
+    <ProjectReference Include="..\Arduino.Contract\Arduino.Contract.csproj">
+      <Project>{33A1EBB2-23FC-4B61-8095-F94357B25C1B}</Project>
+      <Name>Arduino.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

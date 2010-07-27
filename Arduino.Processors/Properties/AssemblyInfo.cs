@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Arduino.AnalogThreshold.MessageProcessor")]
+[assembly: AssemblyTitle("Arduino.Processors")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Arduino.AnalogThreshold.MessageProcessor")]
+[assembly: AssemblyProduct("Arduino.Processors")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ed724eea-a394-40bf-9cfd-35df302d7c00")]
+[assembly: Guid("bcfee3c7-1ba5-4caa-a073-6ba387ccb894")]
 
 // Version information for an assembly consists of the following four values:
 //

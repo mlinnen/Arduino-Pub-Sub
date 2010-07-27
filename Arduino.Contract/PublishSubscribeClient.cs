@@ -9,7 +9,7 @@ using System.Net.Sockets;
 using System.Threading;
 using Arduino.Contract;
 
-namespace Arduino.PubSubConnector
+namespace Arduino.Contract
 {
 	public class PublishSubscribeClient
 	{
@@ -46,6 +46,44 @@ namespace Arduino.PubSubConnector
 
 			// Get a client stream for reading and writing.
 			//  Stream stream = client.GetStream();
+
+			NetworkStream stream = client.GetStream();
+
+			// Send the message to the connected TcpServer. 
+			stream.Write(data, 0, data.Length);
+
+			stream.Flush();
+
+			client.Close();
+
+		}
+
+		public void Subscribe(Subscription subscription)
+		{
+			// Publish the message to the broker
+			TcpClient client = new TcpClient(BrokerIp, BrokerPort);
+
+			// Translate the passed message into ASCII and store it as a Byte array.
+			Byte[] data = System.Text.Encoding.ASCII.GetBytes(subscription.SubscribeMessage);
+
+			NetworkStream stream = client.GetStream();
+
+			// Send the message to the connected TcpServer. 
+			stream.Write(data, 0, data.Length);
+
+			stream.Flush();
+
+			client.Close();
+
+		}
+
+		public void UnSubscribe(Subscription subscription)
+		{
+			// Publish the message to the broker
+			TcpClient client = new TcpClient(BrokerIp, BrokerPort);
+
+			// Translate the passed message into ASCII and store it as a Byte array.
+			Byte[] data = System.Text.Encoding.ASCII.GetBytes(subscription.UnsubSubscribeMessage);
 
 			NetworkStream stream = client.GetStream();
 
@@ -102,6 +140,8 @@ namespace Arduino.PubSubConnector
 				ASCIIEncoding encoder = new ASCIIEncoding();
 				string data = encoder.GetString(message, 0, bytesRead);
 
+				IMessage msg = new Message(data);
+
 				// TODO Add an export that sends the raw data instead of dumping to the console
 				System.Console.WriteLine(data);
 
@@ -110,9 +150,9 @@ namespace Arduino.PubSubConnector
 				{
 					foreach (IMessageProcessor processor in MessageProcessors)
 					{
-						if (processor.ShouldProcess(data))
+						if (processor.ShouldProcess(msg))
 						{
-							processor.Execute(data);
+							processor.Execute(msg);
 							break;
 						}
 					}

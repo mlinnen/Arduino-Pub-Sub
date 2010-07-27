@@ -48,13 +48,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Arduino.PubSubConnector\Arduino.PubSubConnector.csproj">
-      <Project>{A27A658A-8CCC-4E55-919E-69B8EE25823E}</Project>
-      <Name>Arduino.PubSubConnector</Name>
-    </ProjectReference>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <ProjectReference Include="..\Arduino.Contract\Arduino.Contract.csproj">
+      <Project>{33A1EBB2-23FC-4B61-8095-F94357B25C1B}</Project>
+      <Name>Arduino.Contract</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

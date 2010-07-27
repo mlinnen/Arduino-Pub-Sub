@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
-using Arduino.PubSubConnector;
+using Arduino.Contract;
 
 namespace Arduino.TestPublisher.Console
 {

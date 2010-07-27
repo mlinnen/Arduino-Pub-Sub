@@ -5,11 +5,16 @@ using System.Text;
 using System.ComponentModel.Composition;
 using Arduino.Contract;
 
-namespace Arduino.Heartbeat.MessageProcessor
+namespace Arduino.Processors
 {
 	[Export(typeof(IMessageProcessor))]
 	public class HeartbeatProcessor : IMessageProcessor
 	{
+		public HeartbeatProcessor()
+		{
+			
+		}
+
 		#region IMessageProcessor Members
 
 		public string MessageType
@@ -17,36 +22,22 @@ namespace Arduino.Heartbeat.MessageProcessor
 			get { return "HB"; }
 		}
 
-		public void Execute(string msg)
+		public void Execute(IMessage msg)
 		{
-			int count;
-			string[] parms = msg.Split(' ');
-			if (parms != null && parms.Length > 1)
+			if (msg != null && !string.IsNullOrEmpty(msg.MessageDetail) && msg.MessageType.Equals(MessageType))
 			{
-				int.TryParse(parms[1], out count);
+				int count = 0;
+				string[] parms = msg.MessageDetail.Split(':');
+				int.TryParse(parms[0], out count);
 				Send(count);
 			}
 		}
 
-		public bool ShouldProcess(string msg)
+		public bool ShouldProcess(IMessage msg)
 		{
-			if (string.IsNullOrEmpty(msg))
+			if (msg==null || string.IsNullOrEmpty(msg.MessageDetail) || string.IsNullOrEmpty(msg.MessageType) || !msg.MessageType.Equals(MessageType))
 			{
 				return false;
-			}
-			else
-			{
-				string[] parts = msg.Split(':');
-
-				if (parts == null)
-					return false;
-
-				// Verify the message is of the right type
-				if (!parts[0].Equals(MessageType))
-				{
-					return false;
-				}
-
 			}
 			return true;
 		}
@@ -60,5 +51,7 @@ namespace Arduino.Heartbeat.MessageProcessor
 		{
 			MessageReceived(count);
 		}
+
+
 	}
 }
