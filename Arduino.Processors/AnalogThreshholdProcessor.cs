@@ -49,16 +49,18 @@ namespace Arduino.Processors
 		/// <param name="msg">the data from the device to act uppon</param>
 		public void Execute(IMessage msg)
 		{
-			int pin;
-			int threshhold;
-			int actualValue;
+			int pin=0;
+			int threshhold=0;
+			int actualValue=0;
 			string[] parms = msg.MessageDetail.Split(':');
 			if (parms.Length > 2)
 			{
-				int.TryParse(parms[0], out pin);
-				int.TryParse(parms[1], out threshhold);
-				int.TryParse(parms[2], out actualValue);
-				Send(pin, threshhold, actualValue);
+				if (int.TryParse(parms[0], out pin) &&
+					int.TryParse(parms[1], out threshhold) &&
+					int.TryParse(parms[2], out actualValue))
+				{
+					Send(pin, threshhold, actualValue);
+				}
 			}
 		}
 

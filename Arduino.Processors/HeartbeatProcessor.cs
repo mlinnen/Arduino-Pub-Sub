@@ -28,8 +28,8 @@ namespace Arduino.Processors
 			{
 				int count = 0;
 				string[] parms = msg.MessageDetail.Split(':');
-				int.TryParse(parms[0], out count);
-				Send(count);
+				if (int.TryParse(parms[0], out count))
+					Send(count);
 			}
 		}
 

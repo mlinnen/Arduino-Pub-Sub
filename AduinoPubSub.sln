@@ -22,6 +22,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.Processors", "Ardui
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.Contract.UnitTests", "Arduino.Contract.UnitTests\Arduino.Contract.UnitTests.csproj", "{A7E5D962-90B0-43AE-9FEF-0307A23E694A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.Processors.UnitTests", "Arduino.Processors.UnitTests\Arduino.Processors.UnitTests.csproj", "{CC9FDFCC-B172-4B8E-9587-F034D260E00E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{00FA41B0-F5FF-43A9-BD01-B76BF9B76497}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -112,8 +116,22 @@ Global
 		{A7E5D962-90B0-43AE-9FEF-0307A23E694A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A7E5D962-90B0-43AE-9FEF-0307A23E694A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A7E5D962-90B0-43AE-9FEF-0307A23E694A}.Release|x86.ActiveCfg = Release|Any CPU
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CC9FDFCC-B172-4B8E-9587-F034D260E00E} = {00FA41B0-F5FF-43A9-BD01-B76BF9B76497}
+		{A7E5D962-90B0-43AE-9FEF-0307A23E694A} = {00FA41B0-F5FF-43A9-BD01-B76BF9B76497}
 	EndGlobalSection
 EndGlobal
