@@ -3,14 +3,13 @@
 
 int x=0;
 int count=0;
-int analogValue;
-int threshHold=800;
-int analogPin=0;
 
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-byte ip[] = { 192, 168, 254, 214 };
+// Make sure you change the MAC address for each Arduino on the network
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED }; // Arduino Mac
+byte ip[] = { 192, 168, 254, 214 }; // Arduino IP
 byte server[] = { 192, 168, 254, 10 }; // Message Broker Ip
 
+// Connect to the broker on a specific port
 Client client(server, 9999);
 
 void setup()
@@ -24,30 +23,13 @@ void setup()
   
   if (client.connect()) {
     Serial.println("connected");
-    //client.println("GET /search?q=arduino HTTP/1.0");
-    //client.println();
   } else {
     Serial.println("connection failed");
   }
-  }
+}
 
 void loop()
 {
-  // Read the sensor value
-  analogValue = analogRead(analogPin);
-  
-  // Test for thresh hold
-  if (analogValue>threshHold)
-  {
-    //Serial.print("AT ");
-    //Serial.print(analogPin);
-    //Serial.print(" ");
-    //Serial.print(threshHold);
-    //Serial.print(" ");
-    //Serial.print(analogValue);
-    //Serial.println("");
-  }
-  
   count=count+1;
   // Every 5 seconds send a heart beat message
   if (count>4)
@@ -63,7 +45,7 @@ void loop()
     itoa(x, buf, 10);
     
     // Define the command buffer
-    char str1[14] = "HB:";
+    char str1[14] = "HB:1:"; // Change the 1 to another number to differentiate the heartbeat message from other arduino devices that also send a heartbeat
 
     // Build the full command which includes the count
     strcat(str1,buf);

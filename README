@@ -13,14 +13,14 @@ Open the ArduinoPubSub.sln solution and compile it.  Everything you need is comp
 Message Broker:
 The Message Broker must be started first as it is the primary conduit for all messages.  You can run the Arduino.PubSubBroker.Console.exe console application as the message broker or install the Arduino.PubSubBroker.WinService.exe as a windows service.  I like to use the console application while I am working out the code for new publishers or subscribers. Before you start the message broker make sure you edit the .config file for the port you want the broker to listen for messages on.  The message broker needs to be on a fixed IP.
 
-Arduino Publisher:
-I have one sketch currently that just sends a heartbeat message every 5 seconds.  Look in the Arduino.Sketches\MessagePublisher folder for sketches that work on the message bus.  Keep in mind you need the Ethernet shield to send and receive messages with the Arduino.  At this point in time I only have the Arduino publishing messages.
+Arduino Sketches:
+I have one sketch (Arduino.Sketches\HeartbeatPublishExample.pde) currently that just sends a heartbeat message every 5 seconds.  Keep in mind you need the Ethernet shield to send and receive messages with the Arduino.  Make sure you edit the mac, arduino ip broker ip and broker port settings before you compile and download the sketch into the arduino.
 
 .Net Test Subscriber:
-The Client\TestSubscriberConsole.exe console application will subscribe to the heartbeat message that is being sent by the arduino sketch.  Make sure you change the .config file to have the broker ip and port as well as the ip and port that you want the broker to send the message too.
+The Client\Arduino.TestSubscriber.Console.exe console application will subscribe to the heartbeat message that is being sent by the arduino sketch.  Make sure you change the .config file to have the broker ip and port as well as the ip and port that you want the broker to send the message too.
 
 .Net Test Publisher:
-The Client\TestPublisherConsole.exe console application can be used to build up test message to publish.
+The Client\Arduino.TestPublisher.Console.exe console application can be used to build up test messages to publish.
 
 Message Format
 ======================================
@@ -43,3 +43,5 @@ Unsubscribe Message
     port  - is the port that was used when you subscribed
 
   Example: unsub:HB:192.168.254.3:9997
+
+For other message formats take a look at the comments on the Message Processors in the Arduino.Processors project.

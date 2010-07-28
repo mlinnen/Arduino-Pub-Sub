@@ -7,6 +7,13 @@ using Arduino.Contract;
 
 namespace Arduino.Processors
 {
+	/// <summary>
+	/// The HeartbeatProcessor parses Heartbeat messages and publishes and event when a successful message is received 
+	/// Message Format: HB:deviceNumber:Count
+	///   Where 
+	///		deviceNumber - is an integer that identifies which sensor the reading came from.  Use this to have heartbeats that come from multiple arduinos on the network.
+	///		Count - is a 16 bit integer that starts at 1 and is incremented every heartbeat until it reaches 32,767 in which case on the next heartbeat it will become 1
+	/// </summary>
 	[Export(typeof(IMessageProcessor))]
 	public class HeartbeatProcessor : IMessageProcessor
 	{
@@ -26,10 +33,15 @@ namespace Arduino.Processors
 		{
 			if (msg != null && !string.IsNullOrEmpty(msg.MessageDetail) && msg.MessageType.Equals(MessageType))
 			{
+				int deviceNumber = 0;
 				int count = 0;
 				string[] parms = msg.MessageDetail.Split(':');
-				if (int.TryParse(parms[0], out count))
-					Send(count);
+				if (parms.Length == 2)
+				{
+					if (int.TryParse(parms[0], out deviceNumber) &&
+						int.TryParse(parms[1], out count))
+						Send(deviceNumber,count);
+				}
 			}
 		}
 
@@ -45,11 +57,11 @@ namespace Arduino.Processors
 		#endregion
 
 		[Import("HeartBeatProcessor")]
-		public Action<int> MessageReceived { get; set; }
+		public Action<int,int> MessageReceived { get; set; }
 
-		public void Send(int count)
+		public void Send(int deviceNumber, int count)
 		{
-			MessageReceived(count);
+			MessageReceived(deviceNumber,count);
 		}
 
 

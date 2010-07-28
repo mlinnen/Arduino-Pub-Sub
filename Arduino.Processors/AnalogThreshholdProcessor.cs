@@ -9,8 +9,14 @@ namespace Arduino.Processors
 {
 
 	/// <summary>
-	/// This message from the arduino is sent when a specific analog input reading has 
-	/// exceeded a threshold
+	/// The AnalogThreshholdProcessor parses the Analog Threshold messages and publishes an event when a valid message is executed.
+	/// This message from the arduino is sent when a specific analog input reading has exceeded a threshold
+	/// Message Format: AT:deviceNumber:sensorNumber:Threshold:ActualValue
+	///   Where 
+	///		deviceNumber - is an integer that identifies which sensor the reading came from.  Use this to have thresholds that come from multiple arduinos on the network.
+	///		sensorNumber - is the pin that the threshold message belongs to as an integer.  Use this to differentiate between multiple threshold messages that originate from the same device
+	///		Threshold - is the actual threshold value that was exceeded as an integer
+	///		ActualValue - is the actual value that was read on the pin as an integer
 	/// </summary>
 	[Export(typeof(IMessageProcessor))]
 	public class AnalogThreshholdProcessor : IMessageProcessor
@@ -49,17 +55,19 @@ namespace Arduino.Processors
 		/// <param name="msg">the data from the device to act uppon</param>
 		public void Execute(IMessage msg)
 		{
-			int pin=0;
+			int deviceNumber = 0;
+			int sensorNumber = 0;
 			int threshhold=0;
 			int actualValue=0;
 			string[] parms = msg.MessageDetail.Split(':');
-			if (parms.Length > 2)
+			if (parms.Length == 4)
 			{
-				if (int.TryParse(parms[0], out pin) &&
-					int.TryParse(parms[1], out threshhold) &&
-					int.TryParse(parms[2], out actualValue))
+				if (int.TryParse(parms[0], out deviceNumber) &&
+					int.TryParse(parms[1], out sensorNumber) &&
+					int.TryParse(parms[2], out threshhold) &&
+					int.TryParse(parms[3], out actualValue))
 				{
-					Send(pin, threshhold, actualValue);
+					Send(deviceNumber,sensorNumber, threshhold, actualValue);
 				}
 			}
 		}
@@ -67,11 +75,11 @@ namespace Arduino.Processors
 		#endregion
 
 		[Import("AnalogThreshholdProcessor")]
-		public Action<int, int, int> MessageReceived { get; set; }
+		public Action<int, int, int, int> MessageReceived { get; set; }
 
-		private void Send(int pin, int threshhold, int actualValue)
+		private void Send(int deviceNumber, int sensorNumber, int threshhold, int actualValue)
 		{
-			MessageReceived(pin, threshhold, actualValue);
+			MessageReceived(deviceNumber, sensorNumber, threshhold, actualValue);
 		}
 
 	}

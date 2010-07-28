@@ -32,7 +32,7 @@ namespace Arduino.Processors.UnitTests
 			_count = 0;
 			AnalogThreshholdProcessor processor = new AnalogThreshholdProcessor();
 			_container.ComposeParts(processor);
-			IMessage message = new Message(processor.MessageType,"1:10:12");
+			IMessage message = new Message(processor.MessageType,"1:1:10:12");
 			processor.Execute(message);
 			Assert.AreEqual(1,_count,"The message did not fire");
 
@@ -75,12 +75,24 @@ namespace Arduino.Processors.UnitTests
 		}
 
 		[Test]
+		public void When_InValidAnalogThresholdArrivesWithDeviceNumberParmCharacters_ThenMessagedetailsAreNotPublished()
+		{
+			_count = 0;
+			AnalogThreshholdProcessor processor = new AnalogThreshholdProcessor();
+			_container.ComposeParts(processor);
+			IMessage message = new Message(processor.MessageType, "A:1:2:3");
+			processor.Execute(message);
+			Assert.AreEqual(0, _count, "The message fired and it should not have");
+
+		}
+
+		[Test]
 		public void When_InValidAnalogThresholdArrivesWithPinParmCharacters_ThenMessagedetailsAreNotPublished()
 		{
 			_count = 0;
 			AnalogThreshholdProcessor processor = new AnalogThreshholdProcessor();
 			_container.ComposeParts(processor);
-			IMessage message = new Message(processor.MessageType, "A:2:3");
+			IMessage message = new Message(processor.MessageType, "1:A:2:3");
 			processor.Execute(message);
 			Assert.AreEqual(0, _count, "The message fired and it should not have");
 
@@ -92,7 +104,7 @@ namespace Arduino.Processors.UnitTests
 			_count = 0;
 			AnalogThreshholdProcessor processor = new AnalogThreshholdProcessor();
 			_container.ComposeParts(processor);
-			IMessage message = new Message(processor.MessageType, "1:A:3");
+			IMessage message = new Message(processor.MessageType, "1:1:A:3");
 			processor.Execute(message);
 			Assert.AreEqual(0, _count, "The message fired and it should not have");
 
@@ -104,11 +116,24 @@ namespace Arduino.Processors.UnitTests
 			_count = 0;
 			AnalogThreshholdProcessor processor = new AnalogThreshholdProcessor();
 			_container.ComposeParts(processor);
-			IMessage message = new Message(processor.MessageType, "1:2:A");
+			IMessage message = new Message(processor.MessageType, "1:1:2:A");
 			processor.Execute(message);
 			Assert.AreEqual(0, _count, "The message fired and it should not have");
 
 		}
+
+		[Test]
+		public void When_InValidAnalogThresholdMessageWithTooManyParmsArrives_ThenMessagedetailsArePublished()
+		{
+			_count = 0;
+			AnalogThreshholdProcessor processor = new AnalogThreshholdProcessor();
+			_container.ComposeParts(processor);
+			IMessage message = new Message(processor.MessageType, "1:1:10:12:BLAH");
+			processor.Execute(message);
+			Assert.AreEqual(0, _count, "The message did fire and it should not have");
+
+		}
+
 
 		private void Compose()
 		{
@@ -120,9 +145,9 @@ namespace Arduino.Processors.UnitTests
 		}
 
 		[Export("AnalogThreshholdProcessor")]
-		public void AnalogThreshholdReceived(int pin, int threshhold, int actualValue)
+		public void AnalogThreshholdReceived(int deviceNumber, int sensorNumber, int threshhold, int actualValue)
 		{
-			System.Console.WriteLine("AnalogThreshhold msg received pin {0} threshold {1} actualValue {2} ", pin, threshhold, actualValue);
+			System.Console.WriteLine("AnalogThreshhold msg received deviceNumber {0} sensorNumber {1} threshold {2} actualValue {3} ",deviceNumber, sensorNumber, threshhold, actualValue);
 			_count++;
 		}
 

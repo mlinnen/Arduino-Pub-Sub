@@ -32,7 +32,7 @@ namespace Arduino.Processors.UnitTests
 			_count = 0;
 			HeartbeatProcessor processor = new HeartbeatProcessor();
 			_container.ComposeParts(processor);
-			IMessage message = new Message(processor.MessageType,"10");
+			IMessage message = new Message(processor.MessageType,"1:10");
 			processor.Execute(message);
 			Assert.AreEqual(1,_count,"The message did not fire");
 
@@ -44,7 +44,7 @@ namespace Arduino.Processors.UnitTests
 			_count = 0;
 			HeartbeatProcessor processor = new HeartbeatProcessor();
 			_container.ComposeParts(processor);
-			IMessage message = new Message("BLAH", "10");
+			IMessage message = new Message("BLAH", "1:10");
 			processor.Execute(message);
 			Assert.AreEqual(0, _count, "The message fired and it should not have");
 
@@ -63,12 +63,36 @@ namespace Arduino.Processors.UnitTests
 		}
 
 		[Test]
+		public void When_InValidHeartbeatMessageDeviceNumberContainsCharacters_ThenMessagedetailsAreNotPublished()
+		{
+			_count = 0;
+			HeartbeatProcessor processor = new HeartbeatProcessor();
+			_container.ComposeParts(processor);
+			IMessage message = new Message(processor.MessageType, "A:10");
+			processor.Execute(message);
+			Assert.AreEqual(0, _count, "The message fired and it should not have");
+
+		}
+
+		[Test]
 		public void When_InValidHeartbeatMessageCountContainsCharacters_ThenMessagedetailsAreNotPublished()
 		{
 			_count = 0;
 			HeartbeatProcessor processor = new HeartbeatProcessor();
 			_container.ComposeParts(processor);
-			IMessage message = new Message(processor.MessageType, "A");
+			IMessage message = new Message(processor.MessageType, "1:A");
+			processor.Execute(message);
+			Assert.AreEqual(0, _count, "The message fired and it should not have");
+
+		}
+
+		[Test]
+		public void When_InValidHeartbeatMessageHasTooManyParms_ThenMessagedetailsAreNotPublished()
+		{
+			_count = 0;
+			HeartbeatProcessor processor = new HeartbeatProcessor();
+			_container.ComposeParts(processor);
+			IMessage message = new Message(processor.MessageType, "1:10:blah");
 			processor.Execute(message);
 			Assert.AreEqual(0, _count, "The message fired and it should not have");
 
@@ -84,9 +108,9 @@ namespace Arduino.Processors.UnitTests
 		}
 
 		[Export("HeartBeatProcessor")]
-		public void HeartBeatMessageReceived(int count)
+		public void HeartBeatMessageReceived(int deviceNumber,int count)
 		{
-			System.Console.WriteLine("Heartbeat msg received with a count of {0}", count);
+			System.Console.WriteLine("Heartbeat msg received for device {0} with a count of {1}",deviceNumber, count);
 			_count++;
 		}
 
