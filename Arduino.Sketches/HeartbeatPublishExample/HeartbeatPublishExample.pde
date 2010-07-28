@@ -52,6 +52,11 @@ void loop()
     
     // Send the command to the message broker
     client.println(str1);
+
+    if (x==32767)
+    {
+      x=0;
+    }
   }
   
   // Delay for 1 sec

@@ -67,9 +67,9 @@ namespace Arduino.TestSubscriber.Console
 		/// </summary>
 		/// <param name="count">The current count from the Arduino</param>
 		[Export("HeartBeatProcessor")]
-		public void HeartBeatMessageReceived(int count)
+		public void HeartBeatMessageReceived(int deviceNumber, int count)
 		{
-			System.Console.WriteLine("Heartbeat msg received with a count of {0}", count);
+			System.Console.WriteLine("Heartbeat msg received from device {0} with a count of {1}",deviceNumber, count);
 		}
 	}
 }
